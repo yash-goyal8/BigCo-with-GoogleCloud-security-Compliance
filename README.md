@@ -1,1 +1,1 @@
-# BigCo-with-GCP-security-Compliance-
+# BigCo-with-GoogleCloud-security-Compliance
