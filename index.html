@@ -1,0 +1,263 @@
+
+<style>
+@keyframes flow{0%{top:-6px;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:calc(100% + 6px);opacity:0}}
+.card{cursor:pointer;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;background:var(--color-background-primary);transition:border-color .15s,background .15s,transform .1s}
+.card:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary);transform:translateY(-1px)}
+.card.sel{border-color:var(--color-border-primary);background:var(--color-background-secondary)}
+.chip{font-size:11px;padding:3px 9px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);display:inline-block;margin:3px 2px 0 0;background:var(--color-background-secondary)}
+.lyr{font-size:10px;font-weight:500;letter-spacing:.08em;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:7px;background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+.lyr.agent{background:var(--color-background-info);color:var(--color-text-info)}
+.lyr.rag{background:var(--color-background-warning);color:var(--color-text-warning)}
+.inner{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;background:var(--color-background-secondary)}
+b{font-weight:500}
+</style>
+
+<div style="padding:1rem 0 0">
+
+  <!-- Header -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px">GCP Compliance Automation Agent</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary)">Click any component to explore · v2</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--color-text-secondary)"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-text-info);display:inline-block"></span>Agent</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--color-text-secondary)"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-text-warning);display:inline-block"></span>RAG KB</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--color-text-secondary)"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-text-success);display:inline-block"></span>Pass</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--color-text-secondary)"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-text-danger);display:inline-block"></span>Fail</span>
+    </div>
+  </div>
+
+  <!-- INPUT — full width -->
+  <span class="lyr">INPUT</span>
+  <div class="card" id="c-input" onclick="show('input')">
+    <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px">Compliance framework rules</div>
+    <div style="font-size:13px;font-weight:500">OSCAL / PDF</div>
+    <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Structured control definitions or raw compliance documents</div>
+  </div>
+
+  <!-- connector from INPUT to AGENT 1 row -->
+  <div style="position:relative;height:32px;display:flex;justify-content:center">
+    <div style="width:0.5px;background:var(--color-border-secondary)"></div>
+    <div style="position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--color-text-info);animation:flow 2.4s ease-in-out infinite;margin-left:-2px"></div>
+  </div>
+
+  <!-- RAG KB + AGENT 1 -->
+  <div style="display:grid;grid-template-columns:1fr 2fr;gap:9px;align-items:start">
+    <div>
+      <span class="lyr rag">RAG KNOWLEDGE BASE</span>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="card" id="c-kb1" onclick="show('kb1')">
+          <div style="font-size:10px;color:var(--color-text-warning);font-weight:500;margin-bottom:3px">SOURCE 1</div>
+          <div style="font-size:12px;font-weight:500">GCP Service Manuals</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Official service docs, config defaults</div>
+        </div>
+        <div class="card" id="c-kb2" onclick="show('kb2')">
+          <div style="font-size:10px;color:var(--color-text-warning);font-weight:500;margin-bottom:3px">SOURCE 2</div>
+          <div style="font-size:12px;font-weight:500">Historical Audit Logs</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Past findings, patterns, remediation</div>
+        </div>
+        <div class="card" id="c-kb3" onclick="show('kb3')">
+          <div style="font-size:10px;color:var(--color-text-warning);font-weight:500;margin-bottom:3px">SOURCE 3</div>
+          <div style="font-size:12px;font-weight:500">Framework Controls</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">OSCAL, NIST, HIPAA, CIS benchmarks</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span class="lyr agent">AGENT 1</span>
+      <div class="card" id="c-a1" onclick="show('a1')">
+        <div style="font-size:13px;font-weight:500;margin-bottom:10px">Control Mapping + Test Case Generation</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px">
+          <div class="inner">
+            <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px">CORE</div>
+            <div style="font-size:12px;font-weight:500">LLM + RAG</div>
+            <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Retrieves context, reasons over controls</div>
+          </div>
+          <div class="inner">
+            <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px">OUTPUT A</div>
+            <div style="font-size:12px;font-weight:500">Control Mapping</div>
+            <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Standalone deliverable</div>
+          </div>
+        </div>
+        <div class="inner" style="margin-bottom:10px">
+          <div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px">OUTPUT B</div>
+          <div style="font-size:12px;font-weight:500">Typed Test Cases → Agent 2</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Streamed immediately as each control is processed</div>
+        </div>
+        <div><span class="chip">Document Parser</span><span class="chip">RAG Retriever</span><span class="chip">Test Case Generator</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split from Agent 1: left → Control Mapping, right → Test Cases -->
+  <!-- Agent 1 occupies right 2/3, so its center is at 1/3 + (2/3)/2 = 1/3 + 1/3 = 2/3 = 66.6% -->
+  <!-- Control Mapping left card center ≈ 16.5%, Test cases right card center ≈ 83.3% -->
+  <div style="position:relative;height:36px">
+    <!-- vertical from agent 1 center down to horizontal -->
+    <div style="position:absolute;left:66.6%;top:0;width:0.5px;height:60%;background:var(--color-border-secondary)"></div>
+    <!-- horizontal line spanning both outputs -->
+    <div style="position:absolute;left:16.5%;top:60%;right:16.5%;height:0.5px;background:var(--color-border-secondary)"></div>
+    <!-- vertical down to Control Mapping -->
+    <div style="position:absolute;left:16.5%;top:60%;width:0.5px;height:40%;background:var(--color-border-secondary)"></div>
+    <!-- vertical down to Test Cases -->
+    <div style="position:absolute;left:83.3%;top:60%;width:0.5px;height:40%;background:var(--color-border-secondary)"></div>
+  </div>
+
+  <!-- Control Mapping + Test Cases side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+
+    <!-- Control Mapping -->
+    <div>
+      <span class="lyr" style="background:var(--color-background-success);color:var(--color-text-success)">DELIVERABLE</span>
+      <div class="card" id="c-cm" onclick="show('cm')" style="border-color:var(--color-border-success)">
+        <div style="font-size:10px;color:var(--color-text-success);font-weight:500;letter-spacing:.06em;margin-bottom:4px">CONTROL MAPPING</div>
+        <div style="font-size:13px;font-weight:500">Framework Coverage Report</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:3px">GCP service → compliance control coverage · gap analysis</div>
+        <div style="margin-top:9px;padding:7px 9px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:11px;color:var(--color-text-tertiary)">
+          ✦ Standalone — not consumed by Agent 2
+        </div>
+      </div>
+    </div>
+
+    <!-- Test Cases -->
+    <div>
+      <span class="lyr">TEST CASES</span>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div class="card" id="c-ta" onclick="show('ta')">
+          <div style="font-size:10px;color:var(--color-text-info);font-weight:500;letter-spacing:.06em;margin-bottom:3px">TYPE A</div>
+          <div style="font-size:12px;font-weight:500">State Inspection</div>
+          <span class="chip">gcloud CLI</span>
+        </div>
+        <div class="card" id="c-tb" onclick="show('tb')">
+          <div style="font-size:10px;color:var(--color-text-warning);font-weight:500;letter-spacing:.06em;margin-bottom:3px">TYPE B</div>
+          <div style="font-size:12px;font-weight:500">Default Behaviour</div>
+          <span class="chip">Terraform</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector: right column (83.3%) down to Agent 2 -->
+  <div style="position:relative;height:32px">
+    <div style="position:absolute;left:83.3%;top:0;width:0.5px;height:100%;background:var(--color-border-secondary)"></div>
+    <div style="position:absolute;top:-6px;left:83.3%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--color-text-info);animation:flow 2.4s ease-in-out infinite;animation-delay:.6s;margin-left:-2px"></div>
+  </div>
+
+  <!-- AGENT 2 — right column only -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+    <div></div>
+    <div>
+      <span class="lyr agent">AGENT 2</span>
+      <div class="card" id="c-a2" onclick="show('a2')">
+        <div style="font-size:13px;font-weight:500;margin-bottom:10px">Test Execution + Log Collection</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px">
+          <div class="inner" style="border-left:2px solid var(--color-border-info)">
+            <div style="font-size:10px;color:var(--color-text-info);margin-bottom:3px">TYPE A</div>
+            <div style="font-size:11px;font-weight:500">gcloud CLI</div>
+          </div>
+          <div class="inner" style="border-left:2px solid var(--color-border-warning)">
+            <div style="font-size:10px;color:var(--color-text-warning);margin-bottom:3px">TYPE B</div>
+            <div style="font-size:11px;font-weight:500">Terraform</div>
+          </div>
+        </div>
+        <div><span class="chip">Isolated GCP env</span><span class="chip">Log Collector</span><span class="chip">LLM</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector down to Evaluate, staying at 83.3% -->
+  <div style="position:relative;height:32px">
+    <div style="position:absolute;left:83.3%;top:0;width:0.5px;height:100%;background:var(--color-border-secondary)"></div>
+    <div style="position:absolute;top:-6px;left:83.3%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--color-text-info);animation:flow 2.4s ease-in-out infinite;animation-delay:1.2s;margin-left:-2px"></div>
+  </div>
+
+  <!-- EVALUATE — right column only -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+    <div></div>
+    <div>
+      <span class="lyr">EVALUATE</span>
+      <div class="card" id="c-ev" onclick="show('ev')">
+        <div style="font-size:13px;font-weight:500;margin-bottom:3px">Log Analysis + Pass / Fail</div>
+        <div style="font-size:11px;color:var(--color-text-secondary)">LLM interprets output · compares vs expected compliance state</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Split from Evaluate center into PASS / FAIL -->
+  <!-- Evaluate right col center = 75% (midpoint of right half) -->
+  <!-- Pass card center = 62.5% (midpoint of left quarter of right half) -->
+  <!-- Fail card center = 87.5% (midpoint of right quarter of right half) -->
+  <div style="position:relative;height:36px">
+    <div style="position:absolute;left:75%;top:0;width:0.5px;height:60%;background:var(--color-border-secondary)"></div>
+    <div style="position:absolute;left:62.5%;top:60%;right:12.5%;height:0.5px;background:var(--color-border-secondary)"></div>
+    <div style="position:absolute;left:62.5%;top:60%;width:0.5px;height:40%;background:var(--color-border-secondary)"></div>
+    <div style="position:absolute;right:12.5%;top:60%;width:0.5px;height:40%;background:var(--color-border-secondary)"></div>
+  </div>
+
+  <!-- PASS / FAIL — inside right half, side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+    <div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+      <div>
+        <span class="lyr" style="background:var(--color-background-success);color:var(--color-text-success)">PASS</span>
+        <div class="card" id="c-pass" onclick="show('pass')" style="border-color:var(--color-border-success)">
+          <div style="font-size:12px;font-weight:500">JSON report</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Full evidence package</div>
+        </div>
+      </div>
+      <div>
+        <span class="lyr" style="background:var(--color-background-danger);color:var(--color-text-danger)">FAIL</span>
+        <div class="card" id="c-fail" onclick="show('fail')" style="border-color:var(--color-border-danger)">
+          <div style="font-size:12px;font-weight:500">Flagged to Google</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">JSON with failure evidence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- detail panel -->
+  <div id="dpanel" style="display:none;margin-top:16px;padding:16px 18px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);background:var(--color-background-secondary)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:11px">
+      <span id="dtitle" style="font-size:13px;font-weight:500;color:var(--color-text-primary)"></span>
+      <span onclick="closeD()" style="cursor:pointer;color:var(--color-text-secondary);font-size:19px;line-height:1;padding:0 0 0 14px;flex-shrink:0">×</span>
+    </div>
+    <div id="dbody" style="font-size:12px;color:var(--color-text-secondary);line-height:1.8"></div>
+  </div>
+
+</div>
+
+<script>
+const D={
+  input:['OSCAL / PDF — compliance input','The entry point. Two formats:<br><br><b>OSCAL</b> — machine-readable JSON/XML from NIST. Directly consumable by the agent without parsing.<br><br><b>PDF</b> — raw compliance publications. The Document Parser extracts control IDs and descriptions into a normalised internal schema.<br><br>Both produce the same internal control object fed to Agent 1.'],
+  kb1:['RAG Source 1 — GCP Service Manuals','Official GCP documentation for every service — IAM, Cloud Storage, GKE, BigQuery, etc.<br><br>Contains: default configurations, security settings, available controls, API behaviours.<br><br>Used to ground answers like: "what is the default access setting when a Cloud Storage bucket is created?"'],
+  kb2:['RAG Source 2 — Historical Audit Logs','Past compliance audit findings from previous enterprise onboardings.<br><br>Contains: which controls failed, which services were involved, what the fix was, patterns of recurring failures.<br><br>The most valuable source for generating high-quality test cases — encodes real-world compliance failure patterns.'],
+  kb3:['RAG Source 3 — Framework Controls','Structured control libraries from OSCAL, NIST SP 800-53, HIPAA, PCI-DSS, and CIS GCP Benchmarks.<br><br>Provides authoritative definitions of every compliance control. Grounds the LLM so test case generation is anchored to the real requirement, not a hallucinated interpretation.'],
+  a1:['Agent 1 — Control Mapping + Test Case Generation','A RAG-based agent that retrieves relevant context from all three knowledge base sources before reasoning over each compliance control.<br><br><b>Output A — Control Mapping:</b> Maps each compliance control to the GCP services that implement or affect it. Delivered as a standalone report for coverage analysis. Not fed to Agent 2.<br><br><b>Output B — Test Cases:</b> Typed, structured test cases streamed to Agent 2 as they are generated. Agent 1 immediately moves to the next control — parallel execution.'],
+  cm:['Control Mapping — standalone deliverable','One of the primary deliverables of the system, independently valuable from the test execution pipeline.<br><br><b>What it contains:</b><br>• Each compliance control mapped to in-scope GCP services<br>• Coverage status — which controls have GCP service coverage and which are gaps<br>• Framework coverage percentage (e.g. 78% of NIST AC controls mapped)<br><br><b>Why it matters:</b> One project goal is to increase mapping coverage with the compliance framework. This report makes coverage measurable and trackable over time.<br><br>Not consumed by Agent 2.'],
+  ta:['Type A — State Inspection','Checks the current configuration of existing GCP resources using gcloud CLI. Read-only, no side effects.<br><br><b>Example:</b> "Verify no service account has owner-level IAM binding on this project."'],
+  tb:['Type B — Default Behaviour','Provisions a fresh resource via Terraform, inspects it, then destroys it. Tests what GCP defaults to — not what an existing resource was manually hardened to.<br><br><b>Example:</b> "When a new Cloud Storage bucket is created, is public access blocked by default?"'],
+  a2:['Agent 2 — Test Execution + Log Collection','Receives test cases streamed from Agent 1 and routes them by type.<br><br><b>Type A:</b> gcloud CLI inspection. Captures stdout/stderr as structured evidence.<br><br><b>Type B:</b> Terraform apply → inspect → destroy in an isolated GCP environment. Captures plan, apply logs, and state diff.<br><br><b>LLM core:</b> Interprets ambiguous log output and structures the evidence package for evaluation.'],
+  ev:['Log Analysis + Pass / Fail','Receives the evidence package from Agent 2 and makes a compliance determination.<br><br><b>Pass:</b> Recorded in the JSON report.<br><b>Fail:</b> Flagged to Google team with full evidence — commands run, raw output, expected vs actual state.<br><br>For non-binary cases, the LLM provides a reasoned determination with explanation.'],
+  pass:['Output — JSON report (PASS)','<code style="display:block;white-space:pre;font-size:11px;line-height:1.65;padding:10px;background:var(--color-background-primary);border-radius:8px;border:0.5px solid var(--color-border-tertiary);overflow-x:auto;margin-top:4px">{\n  "compliance_control": "NIST AC-2",\n  "services_in_scope": ["IAM"],\n  "test_type": "state_inspection",\n  "execution_method": "gcloud",\n  "output": "No owner bindings found",\n  "status": "PASS"\n}</code>'],
+  fail:['Output — Flagged to Google team (FAIL)','<code style="display:block;white-space:pre;font-size:11px;line-height:1.65;padding:10px;background:var(--color-background-primary);border-radius:8px;border:0.5px solid var(--color-border-tertiary);overflow-x:auto;margin-top:4px">{\n  "compliance_control": "NIST SC-28",\n  "services_in_scope": ["Cloud Storage"],\n  "test_type": "default_behaviour",\n  "execution_method": "terraform",\n  "output": "uniform_bucket_level_access: false",\n  "expected": "uniform_bucket_level_access: true",\n  "status": "FAIL",\n  "flagged_to": "google_compliance_team"\n}</code>']
+};
+let cur=null;
+function show(id){
+  if(cur===id){closeD();return}
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  cur=id;
+  const el=document.getElementById('c-'+id);
+  if(el)el.classList.add('sel');
+  document.getElementById('dtitle').textContent=D[id][0];
+  document.getElementById('dbody').innerHTML=D[id][1];
+  const p=document.getElementById('dpanel');
+  p.style.display='block';
+  setTimeout(()=>p.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+function closeD(){
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('dpanel').style.display='none';
+  cur=null;
+}
+</script>
